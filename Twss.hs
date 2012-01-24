@@ -8,7 +8,7 @@ import qualified Classify
 import Control.Monad
 
 threshold :: Double
-threshold = 0.5
+threshold = 0.25
 
 type TrainingData = [String]
 
@@ -19,4 +19,4 @@ isTwssProbability :: Floating t => [String] -> [String] -> String -> t
 isTwssProbability = Classify.getTwssProbability
 
 isTwss :: TrainingData -> TrainingData -> String -> Bool
-isTwss = Classify.isTwss
+isTwss pos neg prompt = Classify.isTwss pos neg prompt threshold
