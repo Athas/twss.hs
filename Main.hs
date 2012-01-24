@@ -10,4 +10,4 @@ main = do args <- getArgs
                       pos <- readTrainingData posf
                       neg <- readTrainingData negf
                       interact $ unlines . filter (isTwss pos neg) . lines
-            _ -> do error "usage: <positives-file> <negatives-file>"
+            _ -> error "usage: <positives-file> <negatives-file>"

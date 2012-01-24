@@ -13,11 +13,11 @@ cleanSpaces :: String -> String
 cleanSpaces str = subRegex (mkRegex "s{2,}") str " "
 
 cleanDocument :: String -> String
-cleanDocument doc = (cleanSpaces . DU.strip . U.lowercase . stripPunctuation) doc
+cleanDocument = cleanSpaces . DU.strip . U.lowercase . stripPunctuation
 
 getNgrams :: String -> [String]
 -- his implementation only makes them into 1-grams, so just doing this for now
-getNgrams doc = words doc
+getNgrams = words
 
 getNgramFrequency :: Num t => String -> [(String, t)]
 -- assuming ngramSize = 1 and countNgramOnce = undefined = false
@@ -32,7 +32,7 @@ getNgramFrequencies docs = (frequencies_hash, sum $ M.elems frequencies_hash)
 
 getNgramBayesianProbabilities :: Fractional a => [String] -> [String] -> M.Map String a
 getNgramBayesianProbabilities pos_docs neg_docs = M.mapWithKey prop usable_ngrams
-  where prop ngram _ = ((posFreq M.! ngram) / ((posFreq M.! ngram) + (negFreq M.! ngram)))
+  where prop ngram _ = posFreq M.! ngram / posFreq M.! ngram + negFreq M.! ngram
         posFreq = fst $ getNgramFrequencies pos_docs
         negFreq = fst $ getNgramFrequencies neg_docs
         usable_ngrams = M.intersection posFreq negFreq
